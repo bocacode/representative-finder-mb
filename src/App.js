@@ -1,3 +1,4 @@
+import { useState } from "react"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Header from "./Components/Header"
 import Footer from "./Components/Footer";
@@ -8,6 +9,7 @@ import Home from "./Components/Home";
 import './App.css'
 
 function App() {
+  const [user, setUser] = useState()
   return (
       <Router>
         <div>
@@ -15,13 +17,16 @@ function App() {
           <div>
               <Switch>
                   <Route path="/signin">
-                      <SignIn />
+                      <SignIn setUser={setUser} />
                   </Route>
                   <Route path="/signup">
-                      <SignUp />
+                      <SignUp setUser={setUser} />
                   </Route>
                   <Route path="/search">
-                    <RepresentativeSearch/>
+                    {user
+                      ? <RepresentativeSearch user={user} />
+                      : <SignIn setUser={setUser} />
+                    }
                   </Route>
                   <Route path="/">
                     <Home />
